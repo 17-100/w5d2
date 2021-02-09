@@ -103,12 +103,11 @@ router.post('/books/:id/reviews', (req, res) => {
   const bookId = req.params.id;
   const user = req.body.user;
   const comments = req.body.comments;
-  console.log(user, comments, bookId);
+  console.log(user, comments);
   // const { user, comments } = req.body;
-  // Book.findByIdAndUpdate(bookId, { $push: { reviews: { user: user, comments: comments } } })
   Book.findOneAndUpdate({ _id: bookId }, { $push: { reviews: { user: user, comments: comments } } })
-    .then(book => {
-      console.log(book);
+    .then(() => {
+      res.redirect(`/books/${bookId}`);
     })
     .catch(err => {
       console.log(err);
