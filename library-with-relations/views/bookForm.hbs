@@ -5,6 +5,8 @@
 
   {{!-- <label for="author">Author: </label>
   <input type="text" name="author" id="author"> --}}
+  {{!-- the input is now replaces with a select -> for this we need 
+  all the authors in this view --}}
   <select name="author" id="">
     {{#each authors}}
       <option value="{{this._id}}">{{this.name}} {{this.lastName}}</option>

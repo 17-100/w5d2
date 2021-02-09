@@ -57,6 +57,7 @@ router.get('/books/edit/:id', (req, res) => {
 })
 
 router.get('/books/add', (req, res) => {
+  // to render the select we also need all the authors in the view
   Author.find()
     .then(authorsFromDB => {
       res.render('bookForm', { authors: authorsFromDB });
@@ -69,6 +70,8 @@ router.get('/books/add', (req, res) => {
 router.get('/books/:id', (req, res) => {
   const bookId = req.params.id;
   // get the book with this id
+  // we need to call populate to replace the id of the author in the 'author' field
+  // with all the information from the author model
   Book.findById(bookId)
     .populate('author')
     .then(book => {
@@ -105,6 +108,7 @@ router.post('/books/:id/reviews', (req, res) => {
   const comments = req.body.comments;
   console.log(user, comments);
   // const { user, comments } = req.body;
+  // here we add the reviews from the form to the reviews array in the book document
   Book.findOneAndUpdate({ _id: bookId }, { $push: { reviews: { user: user, comments: comments } } })
     .then(() => {
       res.redirect(`/books/${bookId}`);
